@@ -56,3 +56,4 @@ cronometro.detener()
 
 print("Ordenamiento finalizado.")
 print(f"Tiempo transcurrido: {cronometro.lapso_de_tiempo():.2f} milisegundos")
+

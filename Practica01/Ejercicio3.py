@@ -42,3 +42,5 @@ elif discriminante == 0:
     print(f"La ecuación tiene una raíz {r:.4f}")
 else:
     print("La ecuación no tiene raíces reales")
+
+

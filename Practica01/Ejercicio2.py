@@ -15,14 +15,14 @@ class EcuacionLineal:
 
     def getX(self):
         if self.tieneSolucion():
-            return (self.__e * self.__d - self.__b * self.__f) / (self.__a * self.__d - self.__b * self.__c)
+            return print((self.__e * self.__d - self.__b * self.__f) / (self.__a * self.__d - self.__b * self.__c))
         else:
             print("no hay solucion...")
             return None
 
     def getY(self):
         if self.tieneSolucion():
-            return (self.__a * self.__f - self.__e * self.__c) / (self.__a * self.__d - self.__b * self.__c)
+            return print((self.__a * self.__f - self.__e * self.__c) / (self.__a * self.__d - self.__b * self.__c))
         else:
             print("no hay solucion...")
             return None
