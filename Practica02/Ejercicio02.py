@@ -3,7 +3,6 @@ from multimethod import multimethod
 
 class AlgebraVectorial:
 
-    # --- Sobrecarga de Constructores ---
     @multimethod
     def __init__(self):
         self.__x = 0.0
@@ -22,12 +21,10 @@ class AlgebraVectorial:
         self.__y = float(y)
         self.__z = float(z)
 
-    # --- Getters ---
     def getX(self): return self.__x
     def getY(self): return self.__y
     def getZ(self): return self.__z
 
-    # --- Sobrecarga de Operadores Matemáticos ---
     def __add__(self, b):
         return AlgebraVectorial(self.__x + b.getX(), self.__y + b.getY(), self.__z + b.getZ())
 
@@ -49,7 +46,6 @@ class AlgebraVectorial:
     def por_escalar(self, r):
         return AlgebraVectorial(self.__x * r, self.__y * r, self.__z * r)
 
-    # --- Sobrecarga de Funciones con multimethod ---
     @multimethod
     def perpendicular(self, b: object):
         return round(self * b, 4) == 0
@@ -86,7 +82,6 @@ class AlgebraVectorial:
         return f"({self.__x}, {self.__y}, {self.__z})"
 
 
-# --- Ejecución Directa (Plantilla Fija) ---
 class Main():
     a = AlgebraVectorial(2.0, 0.0, 0.0)
     b = AlgebraVectorial(0.0, 3.0)
