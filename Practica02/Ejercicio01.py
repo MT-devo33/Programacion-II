@@ -1,26 +1,34 @@
 import math
+from multimethod import multimethod
 
 class MiPunto:
-    # b) y c) 
-    def __init__(self, x=0.0, y=0.0):
+
+    @multimethod
+    def __init__(self):
+        self.__x = 0.0
+        self.__y = 0.0
+
+    @multimethod
+    def __init__(self, x: float, y: float):
         self.__x = float(x)
         self.__y = float(y)
 
-    # a) 
     def getX(self):
         return self.__x
 
     def getY(self):
         return self.__y
 
-    # d) y e)
-    def distancia(self, punto_o_x, y=None):
-        if isinstance(punto_o_x, MiPunto):
-            dx = self.__x - punto_o_x.getX()
-            dy = self.__y - punto_o_x.getY()
-        else:
-            dx = self.__x - punto_o_x
-            dy = self.__y - y
+    @multimethod
+    def distancia(self, otro: object):
+        dx = self.__x - otro.getX()
+        dy = self.__y - otro.getY()
+        return math.sqrt(dx ** 2 + dy ** 2)
+
+    @multimethod
+    def distancia(self, x: float, y: float):
+        dx = self.__x - x
+        dy = self.__y - y
         return math.sqrt(dx ** 2 + dy ** 2)
 
 
@@ -32,7 +40,7 @@ class Main():
     print(f"Punto 2: ({p2.getX()}, {p2.getY()})")
 
     d1 = p1.distancia(p2)
-    print(f"Distancia p1 a p2 (usando objeto): {d1:.4f}")
+    print(f"Distancia de p1 a p2: {d1:.4f}")
 
     d2 = p1.distancia(10.0, 30.5)
-    print(f"Distancia p1 a (10, 30.5) (usando coordenadas): {d2:.4f}")
+    print(f"Distancia de p1 a (10, 30.5): {d2:.4f}")

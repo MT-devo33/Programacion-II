@@ -1,86 +1,111 @@
 import math
+from multimethod import multimethod
 
 class AlgebraVectorial:
-    def __init__(self, x=0.0, y=0.0, z=0.0):
+
+    # --- Sobrecarga de Constructores ---
+    @multimethod
+    def __init__(self):
+        self.__x = 0.0
+        self.__y = 0.0
+        self.__z = 0.0
+
+    @multimethod
+    def __init__(self, x: float, y: float):
+        self.__x = float(x)
+        self.__y = float(y)
+        self.__z = 0.0
+
+    @multimethod
+    def __init__(self, x: float, y: float, z: float):
         self.__x = float(x)
         self.__y = float(y)
         self.__z = float(z)
 
-    def getX(self):
-        return self.__x
+    # --- Getters ---
+    def getX(self): return self.__x
+    def getY(self): return self.__y
+    def getZ(self): return self.__z
 
-    def getY(self):
-        return self.__y
-
-    def getZ(self):
-        return self.__z
-
-    def modulo(self):
-        return math.sqrt(self.__x ** 2 + self.__y ** 2 + self.__z ** 2)
-
-    def sumar(self, b):
+    # --- Sobrecarga de Operadores Matemáticos ---
+    def __add__(self, b):
         return AlgebraVectorial(self.__x + b.getX(), self.__y + b.getY(), self.__z + b.getZ())
 
-    def restar(self, b):
+    def __sub__(self, b):
         return AlgebraVectorial(self.__x - b.getX(), self.__y - b.getY(), self.__z - b.getZ())
 
-    def productoEscalar(self, b):
-        return self.__x * b.getX() + self.__y * b.getY() + self.__z * b.getZ()
+    def __mul__(self, b):
+        return (self.__x * b.getX()) + (self.__y * b.getY()) + (self.__z * b.getZ())
 
-    def productoVectorial(self, b):
-        rx = self.__y * b.getZ() - self.__z * b.getY()
-        ry = self.__z * b.getX() - self.__x * b.getZ()
-        rz = self.__x * b.getY() - self.__y * b.getX()
-        return AlgebraVectorial(rx, ry, rz)
+    def __abs__(self):
+        return math.sqrt(self.__x**2 + self.__y**2 + self.__z**2)
 
-    def perpendicular(self, b, metodo=0):
+    def cruz(self, b):
+        cx = self.__y * b.getZ() - self.__z * b.getY()
+        cy = self.__z * b.getX() - self.__x * b.getZ()
+        cz = self.__x * b.getY() - self.__y * b.getX()
+        return AlgebraVectorial(cx, cy, cz)
+
+    def por_escalar(self, r):
+        return AlgebraVectorial(self.__x * r, self.__y * r, self.__z * r)
+
+    # --- Sobrecarga de Funciones con multimethod ---
+    @multimethod
+    def perpendicular(self, b: object):
+        return round(self * b, 4) == 0
+
+    @multimethod
+    def perpendicular(self, b: object, metodo: int):
         if metodo == 1:
-            return abs(self.sumar(b).modulo() - self.restar(b).modulo()) < 1e-9
+            return round(abs(self + b), 4) == round(abs(self - b), 4)
         elif metodo == 2:
-            mod_suma_cuad = self.sumar(b).modulo() ** 2
-            suma_cuads = (self.modulo() ** 2) + (b.modulo() ** 2)
-            return abs(mod_suma_cuad - suma_cuads) < 1e-9
-        return abs(self.productoEscalar(b)) < 1e-9
+            mod_suma_cuad = round(abs(self + b)**2, 4)
+            suma_cuads = round(abs(self)**2 + abs(b)**2, 4)
+            return mod_suma_cuad == suma_cuads
+        return False
 
-    def paralela(self, b, r=None):
-        if r is not None:
-            cx = abs(self.__x - r * b.getX()) < 1e-9
-            cy = abs(self.__y - r * b.getY()) < 1e-9
-            cz = abs(self.__z - r * b.getZ()) < 1e-9
-            return cx and cy and cz
-        return self.productoVectorial(b).modulo() < 1e-9
+    @multimethod
+    def paralela(self, b: object):
+        return round(abs(self.cruz(b)), 4) == 0
 
-    def proyeccion(self, b):
-        escalar = self.productoEscalar(b) / (b.modulo() ** 2)
-        return AlgebraVectorial(escalar * b.getX(), escalar * b.getY(), escalar * b.getZ())
+    @multimethod
+    def paralela(self, b: object, r: float):
+        rb = b.por_escalar(r)
+        return (round(self.__x, 4) == round(rb.getX(), 4) and 
+                round(self.__y, 4) == round(rb.getY(), 4) and 
+                round(self.__z, 4) == round(rb.getZ(), 4))
 
-    def componente(self, b):
-        return self.productoEscalar(b) / b.modulo()
+    def Proyeccion_de_a_sobre_b(self, b):
+        escalar = (self * b) / (abs(b)**2)
+        return b.por_escalar(escalar)
+
+    def Componente_de_a_en_b(self, b):
+        return (self * b) / abs(b)
 
     def __str__(self):
-        return f"({self.__x:.2f}, {self.__y:.2f}, {self.__z:.2f})"
+        return f"({self.__x}, {self.__y}, {self.__z})"
 
 
+# --- Ejecución Directa (Plantilla Fija) ---
 class Main():
-    a = AlgebraVectorial(1.0, 0.0, 0.0)
-    b = AlgebraVectorial(0.0, 2.0, 0.0)
-    c = AlgebraVectorial(2.0, 0.0, 0.0)
+    a = AlgebraVectorial(2.0, 0.0, 0.0)
+    b = AlgebraVectorial(0.0, 3.0)
+    c = AlgebraVectorial(4.0, 0.0, 0.0)
 
-    print(f"Vector a: {a}")
-    print(f"Vector b: {b}")
-    print(f"Vector c: {c}")
+    print(f"Vector A: {a}")
+    print(f"Vector B: {b}")
+    print(f"Vector C: {c}")
+    print("-" * 35)
 
-    print("\n--- PERPENDICULARIDAD ---")
-    print(f"a perpendicular a b (producto escalar): {a.perpendicular(b)}")
-    print(f"a perpendicular a b (|a+b| == |a-b|): {a.perpendicular(b, 1)}")
-    print(f"a perpendicular a b (Pitagoras): {a.perpendicular(b, 2)}")
+    print("--- PRUEBAS DE PERPENDICULARIDAD (A y B) ---")
+    print(f"c) a . b = 0 -> {a.perpendicular(b)}")
+    print(f"a) |a + b| = |a - b| -> {a.perpendicular(b, 1)}")
+    print(f"d) |a + b|^2 = |a|^2 + |b|^2 -> {a.perpendicular(b, 2)}")
 
-    print("\n--- PARALELISMO ---")
-    print(f"a paralelo a c (producto cruz): {a.paralela(c)}")
-    print(f"c paralelo a a con r=2.0: {c.paralela(a, 2.0)}")
+    print("\n--- PRUEBAS DE PARALELISMO (A y C) ---")
+    print(f"f) a x c = 0 -> {a.paralela(c)}")
+    print(f"e) a = rc (con r=0.5) -> {a.paralela(c, 0.5)}")
 
-    v1 = AlgebraVectorial(3.0, 4.0, 0.0)
-    v2 = AlgebraVectorial(2.0, 0.0, 0.0)
-    print("\n--- PROYECCION Y COMPONENTE ---")
-    print(f"Proyeccion de v1 sobre v2: {v1.proyeccion(v2)}")
-    print(f"Componente de v1 en v2: {v1.componente(v2):.2f}")
+    print("\n--- PROYECCIÓN Y COMPONENTE (A sobre C) ---")
+    print(f"g) Proyeccion de A sobre C: {a.Proyeccion_de_a_sobre_b(c)}")
+    print(f"h) Componente de A en C: {a.Componente_de_a_en_b(c)}")
