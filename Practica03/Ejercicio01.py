@@ -50,6 +50,9 @@ class JuegoAdivinaNumero(Juego):
                     break
 
 
-class Main():
-    juego = JuegoAdivinaNumero(3)
-    juego.juega()
+class Aplicacion():
+    def main():
+        juego = JuegoAdivinaNumero(3)
+        juego.juega()
+
+    main()

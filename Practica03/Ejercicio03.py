@@ -57,20 +57,23 @@ class VehiculoAutonomo(Camara, SensorLuzLaser):
         return self.__alcance
 
 
-class Main():
-    vehiculo = VehiculoAutonomo("VH-001", "1080p", 200)
+class Aplicacion():
+    def main():
+        vehiculo = VehiculoAutonomo("VH-001", "1080p", 200)
 
-    print("--- ATRIBUTOS DE CLASE ---")
-    print(f"Tipo: {vehiculo.tipo}")
+        print("--- ATRIBUTOS DE CLASE ---")
+        print(f"Tipo: {vehiculo.tipo}")
 
-    print("\n--- ATRIBUTOS DE INSTANCIA ---")
-    print(f"ID: {vehiculo.getId()}")
-    print(f"Resolucion: {vehiculo.getResolucion()}")
-    print(f"Alcance: {vehiculo.getAlcance()} m")
-    print(f"Estado inicial: {vehiculo.getEncendido()}")
+        print("\n--- ATRIBUTOS DE INSTANCIA ---")
+        print(f"ID: {vehiculo.getId()}")
+        print(f"Resolucion: {vehiculo.getResolucion()}")
+        print(f"Alcance: {vehiculo.getAlcance()} m")
+        print(f"Estado inicial: {vehiculo.getEncendido()}")
 
-    print("\n--- METODOS HEREDADOS ---")
-    vehiculo.activar()
-    print(f"Estado actual: {vehiculo.getEncendido()}")
-    vehiculo.desactivar()
-    print(f"Estado actual: {vehiculo.getEncendido()}")
+        print("\n--- METODOS HEREDADOS ---")
+        vehiculo.activar()
+        print(f"Estado actual: {vehiculo.getEncendido()}")
+        vehiculo.desactivar()
+        print(f"Estado actual: {vehiculo.getEncendido()}")
+
+    main()

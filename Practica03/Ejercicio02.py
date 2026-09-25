@@ -81,16 +81,19 @@ class JuegoAdivinaImpar(JuegoAdivinaNumero):
         return False
 
 
-class Main():
-    juego_normal = JuegoAdivinaNumero(3)
-    juego_par = JuegoAdivinaPar(3)
-    juego_impar = JuegoAdivinaImpar(3)
+class Aplicacion():
+    def main():
+        juego_normal = JuegoAdivinaNumero(3)
+        juego_par = JuegoAdivinaPar(3)
+        juego_impar = JuegoAdivinaImpar(3)
 
-    print("--- INICIANDO JUEGO NORMAL ---")
-    juego_normal.juega()
+        print("--- INICIANDO JUEGO NORMAL ---")
+        juego_normal.juega()
 
-    print("\n--- INICIANDO JUEGO PAR ---")
-    juego_par.juega()
+        print("\n--- INICIANDO JUEGO PAR ---")
+        juego_par.juega()
 
-    print("\n--- INICIANDO JUEGO IMPAR ---")
-    juego_impar.juega()
+        print("\n--- INICIANDO JUEGO IMPAR ---")
+        juego_impar.juega()
+
+    main()
