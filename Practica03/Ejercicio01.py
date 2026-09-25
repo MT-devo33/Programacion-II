@@ -41,13 +41,12 @@ class JuegoAdivinaNumero(Juego):
             else:
                 le_quedan_vidas = self.quitaVida()
                 if le_quedan_vidas:
-                    if intento < self.__numeroAAdivinar:
-                        print("El numero a adivinar es mayor.")
+                    if self.__numeroAAdivinar > intento:
+                        print("El numero a adivinar es mayor. Intente de nuevo.")
                     else:
-                        print("El numero a adivinar es menor.")
-                    print("Intente de nuevo.\n")
+                        print("El numero a adivinar es menor. Intente de nuevo.")
                 else:
-                    print("Ya no le quedan mas vidas al jugador. Fin del juego.")
+                    print("Ya no le quedan mas vidas al jugador.")
                     break
 
 

@@ -58,17 +58,19 @@ class VehiculoAutonomo(Camara, SensorLuzLaser):
 
 
 class Main():
-    vehiculo = VehiculoAutonomo("VH-001", "4K", 150)
+    vehiculo = VehiculoAutonomo("VH-001", "1080p", 200)
 
-    print("--- DATOS DEL VEHICULO AUTONOMO ---")
+    print("--- ATRIBUTOS DE CLASE ---")
     print(f"Tipo: {vehiculo.tipo}")
+
+    print("\n--- ATRIBUTOS DE INSTANCIA ---")
     print(f"ID: {vehiculo.getId()}")
     print(f"Resolucion: {vehiculo.getResolucion()}")
-    print(f"Alcance: {vehiculo.getAlcance()} metros")
-    print(f"Estado encendido inicial: {vehiculo.getEncendido()}")
+    print(f"Alcance: {vehiculo.getAlcance()} m")
+    print(f"Estado inicial: {vehiculo.getEncendido()}")
 
-    print("\n--- PRUEBA DE METODOS ---")
+    print("\n--- METODOS HEREDADOS ---")
     vehiculo.activar()
-    print(f"Estado encendido actual: {vehiculo.getEncendido()}")
+    print(f"Estado actual: {vehiculo.getEncendido()}")
     vehiculo.desactivar()
-    print(f"Estado encendido actual: {vehiculo.getEncendido()}")
+    print(f"Estado actual: {vehiculo.getEncendido()}")
